@@ -42,3 +42,4 @@ services:
     - internal
     environment:
       MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+    command: --default-authentication-plugin=mysql_native_password
