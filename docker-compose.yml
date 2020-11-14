@@ -1,0 +1,44 @@
+version: '2'
+
+networks:
+  internal:
+    driver: bridge
+
+services:
+  app-one:
+    build: .
+    container_name: app-one
+    expose:
+    - '8000'
+    networks:
+    - internal
+
+  app-two:
+    build: .
+    container_name: app-two
+    expose:
+    - '8000'
+    networks:
+    - internal
+
+  nginx:
+    image: nginx:stable
+    container_name: nginx
+    expose:
+    - 80
+    ports:
+    - 8080:80
+    networks:
+    - internal
+    volumes:
+    - ./conf.d:/etc/nginx/conf.d
+
+  mysql:
+    image: percona:8.0
+    container_name: mysql
+    expose:
+    - 3306
+    networks:
+    - internal
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
